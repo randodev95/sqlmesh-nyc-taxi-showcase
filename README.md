@@ -76,7 +76,7 @@ Suggested repo name: `sqlmesh-nyc-taxi-showcase`
 
 No cloud warehouse credentials are needed because DuckDB runs fully in CI.
 
-graph TD
+
     subgraph "Development & CI/CD (Zero Cost)"
         A[Developer Commits Code] -->|Pushes PR| B(GitHub Actions Runner)
         B -->|Runs 'sqlmesh test'| C[(DuckDB - Ephemeral)]
