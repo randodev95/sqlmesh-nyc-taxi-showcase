@@ -1,0 +1,14 @@
+[project]
+name = "sqlmesh-nyc-taxi-showcase"
+version = "0.1.0"
+description = "SQLMesh feature showcase using NYC Taxi public data"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "sqlmesh",
+  "duckdb",
+  "pytest",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

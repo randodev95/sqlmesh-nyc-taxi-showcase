@@ -1,0 +1,48 @@
+test_taxi_fct_yellow_trip_daily:
+  model: taxi.fct_yellow_trip_daily
+  inputs:
+    taxi.int_trip_enriched:
+      rows:
+        - pickup_date: '2026-04-20'
+          pickup_ts: '2026-04-20 08:00:00'
+          dropoff_ts: '2026-04-20 08:15:00'
+          pu_location_id: 1
+          do_location_id: 2
+          pickup_borough: Manhattan
+          pickup_zone: Midtown
+          dropoff_borough: Manhattan
+          dropoff_zone: Upper East Side
+          passenger_count: 1
+          trip_distance: 3.0
+          fare_amount: 12.0
+          total_amount: 15.0
+          payment_type: 1
+          trip_duration_minutes: 15
+        - pickup_date: '2026-04-20'
+          pickup_ts: '2026-04-20 10:00:00'
+          dropoff_ts: '2026-04-20 10:20:00'
+          pu_location_id: 1
+          do_location_id: 3
+          pickup_borough: Manhattan
+          pickup_zone: Midtown
+          dropoff_borough: Queens
+          dropoff_zone: Astoria
+          passenger_count: 2
+          trip_distance: 5.0
+          fare_amount: 16.0
+          total_amount: 20.0
+          payment_type: 2
+          trip_duration_minutes: 20
+  outputs:
+    query:
+      rows:
+        - pickup_date: '2026-04-20'
+          pu_location_id: 1
+          pickup_borough: Manhattan
+          pickup_zone: Midtown
+          trip_count: 2
+          passenger_count: 3
+          total_amount: 35.0
+          avg_trip_distance: 4.0
+          avg_trip_duration_minutes: 17.5
+          avg_revenue_per_trip: 17.5
