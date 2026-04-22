@@ -3,15 +3,46 @@ name: SQLMesh Pipeline
 on:
   push:
     branches:
-      - main
-      - master
+      - "**"
   pull_request:
   workflow_dispatch:
   schedule:
     - cron: "0 11 * * *"
 
 jobs:
-  sqlmesh:
+  sqlmesh-dev:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main')
+    runs-on: ubuntu-latest
+    env:
+      SQLMESH_HOME: ${{ github.workspace }}/.sqlmesh_home
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install sqlmesh duckdb pytest
+
+      - name: Fetch NYC Taxi raw data
+        run: python scripts/fetch_nyc_taxi_data.py --months 2
+
+      - name: Run unit tests
+        run: pytest -q
+
+      - name: Run SQLMesh tests
+        run: sqlmesh test
+
+      - name: Plan and auto-apply to dev environment
+        run: sqlmesh plan dev --auto-apply
+
+  sqlmesh-prod:
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     env:
       SQLMESH_HOME: ${{ github.workspace }}/.sqlmesh_home
