@@ -65,15 +65,6 @@ sqlmesh plan --auto-apply
 - `taxi.fct_payment_type_daily`
 - `taxi.seed_payment_type_map`
 
-## Publishing to GitHub
-
-Suggested repo name: `sqlmesh-nyc-taxi-showcase`
-
-1. Create a new GitHub repository (or use `gh repo create sqlmesh-nyc-taxi-showcase --public --source=. --remote=origin`).
-2. Push this project.
-3. Ensure default branch is `main`.
-4. GitHub Actions automatically runs on push/PR and daily schedule.
-
 No cloud warehouse credentials are needed because DuckDB runs fully in CI.
 
 
