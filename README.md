@@ -75,3 +75,21 @@ Suggested repo name: `sqlmesh-nyc-taxi-showcase`
 4. GitHub Actions automatically runs on push/PR and daily schedule.
 
 No cloud warehouse credentials are needed because DuckDB runs fully in CI.
+
+graph TD
+    subgraph "Development & CI/CD (Zero Cost)"
+        A[Developer Commits Code] -->|Pushes PR| B(GitHub Actions Runner)
+        B -->|Runs 'sqlmesh test'| C[(DuckDB - Ephemeral)]
+        C --> D{Tests Pass?}
+        D -->|Yes| E[Merge to Main]
+        D -->|No| F[Block PR]
+    end
+
+    subgraph "Production (Paid Compute)"
+        E -->|Triggers Deployment| G(GitHub Actions Cron / Prod Job)
+        G -->|Runs 'sqlmesh plan'| H[(Postgres / Snowflake)]
+        H --> I[Updated Data Marts]
+    end
+    
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style H fill:#bbf,stroke:#333,stroke-width:2px
